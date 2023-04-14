@@ -1,0 +1,34 @@
+name: Init Project
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on: create
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    if: github.ref == 'refs/heads/master'
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.5.0
+      with:
+        # SDK version to use. Examples: 2.2.104, 3.1, 3.1.x
+        dotnet-version: 3.1.x
+    
+    - name: Generate project
+      run: dotnet new webapi --name ${{ github.event.repository.name }}
+     
+    - name: Generate test project
+      run: dotnet new xunit --name ${{ github.event.repository.name }}.UnitTests
+    
+    - name: Git Commit/Push Changes
+      uses: actions-x/commit@v1
