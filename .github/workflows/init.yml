@@ -31,4 +31,4 @@ jobs:
       run: dotnet new xunit --name ${{ github.event.repository.name }}.UnitTests
     
     - name: Git Commit/Push Changes
-      uses: actions-x/commit@v1
+      uses: actions-x/commit@v6
