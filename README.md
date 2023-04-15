@@ -54,7 +54,7 @@ curl --request PUT \
   --header 'Accept: application/vnd.github+json' \
   --header 'Authorization: Bearer {{ _.github_token }}' \
   --header 'X-GitHub-Api-Version: 2022-11-28' \
-  --data '{"default_workflow_permissions":"read","can_approve_pull_request_reviews":true}'
+  --data '{"default_workflow_permissions":"write","can_approve_pull_request_reviews":true}'
 ```
 
 ### Dispatch [repository_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch) event 
