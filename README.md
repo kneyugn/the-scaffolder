@@ -19,11 +19,15 @@ To generate the personal access token, follow these steps below. I did not have 
 
 ```json
 {
-	"github_token": "token",
+	"template_repo": "the-scaffold",
 	"template_owner": "kneyugn",
-	"owner": "your-github-username",
-	"repo": "your-new-repo",
-	"template_repo": "dotNetScaffold"
+	"repository_dispatch_event": "on_scaffold_repo"
+	"github_token": "<token>",
+	"owner": "<your-github-user-name>",
+	"repo": "<your-new-repo>",
+	"scaffold_type": "<angular|dotnet>",
+	"user_name": "<your-github-user-name>",
+	"user_email": "<your-email>",
 }
 ```
 
