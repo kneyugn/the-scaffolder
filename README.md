@@ -68,11 +68,19 @@ curl --request PUT \
 Triggering `repository_dispatch` is preferred because it allows for the worfklow permissions step to be completed. Additionally, we can attach payload in the future that can be used by the CLI as arguments.
 
 ```
-curl -L \
-  -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer {{ _.github_token }}"\
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/{{ _.owner }}/{{ _.repo }}/dispatches \
-  -d '{"event_type":"on-scaffold-repo"}'
+curl --request POST \
+  --url https://api.github.com/repos/{{ _.owner }}/{{ _.repo }}/dispatches \
+  --header 'Accept: application/vnd.github+json' \
+  --header 'Authorization: Bearer {{ _.github_token }}' \
+  --header 'X-GitHub-Api-Version: 2022-11-28' \
+  --data '{
+    "event_type": "{{ _.repository_dispatch_event }}",
+    "client_payload": {
+        "scaffold_type": "{{ _.scaffold_type }}",
+        "user_name": "{{ _.user_name }}",
+        "user_email": "{{ _.user_email }}",
+	"owner": "{{ _.owner }}",
+	"repo": "{{ _.repo }}"
+    }
+}'
 ```
