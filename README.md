@@ -2,7 +2,7 @@
 
 ## Introduction
 This project is built on top of [Liam Guilliver's tutorial](https://lgulliver.github.io/dynamically-generate-projects-with-github-templates-and-actions/). 
-I updated versions of some action libaries to get it working again. The hope is that we can transfer these steps to run an internal organization's CLI to generate specific repositories such as a new Angular, Nestjs projects. See [working example](https://github.com/kneyugn/scaffoldRepo3/actions)!
+I updated versions of some action libaries to get it working again. The hope is that we can transfer these steps to run an internal organization's CLI to generate specific repositories such as a new Angular, Nestjs projects. See [working example](https://github.com/kneyugn/this-dotnet-repo-was-scaffolded)!
 
 I made some specific modifications in the hope of making this as a UI first tool. The ideal flow would be:
 
