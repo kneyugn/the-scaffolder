@@ -10,7 +10,7 @@ I made some specific modifications in the hope of making this as a UI first tool
 `user registers repository with a UI form` --> `make repository from template` --> `add missing workflow permissions` --> `trigger workflow via repository_dispatch event`
 
 ### Generate personal access token:
-To generate the peronsal access token, follow these steps below. I did not have much luck with fine grained PAT but had luck with the traditional tokens. 
+To generate the personal access token, follow these steps below. I did not have much luck with fine grained PAT but had luck with the traditional tokens. 
 
 ```user menu -> settings -> developer settings -> personal access token -> generate new token```
 
