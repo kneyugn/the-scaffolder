@@ -1,0 +1,43 @@
+name: Create New Angular App
+
+on:
+  repository_dispatch:
+    types: [on_scaffold_repo]
+  
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main' && github.event.client_payload.scaffold_type == 'angular'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: ng generate
+        run: ng new ${{ github.event.repository.name }} --directory=. --style=scss --skip-git --skip-install
+
+      - name: Set environment variables
+        run: |
+          echo "GIT_USER_NAME=${{ github.event.client_payload.user_name }}" >> $GITHUB_ENV
+          echo "GIT_USER_EMAIL=${{ github.event.client_payload.user_email }}" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "$GIT_USER_NAME"
+          git config --global user.email "$GIT_USER_NAME"
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          git commit -m "Create new Angular project"
+          git push
