@@ -84,3 +84,6 @@ curl --request POST \
     }
 }'
 ```
+
+## Todo
+The scaffolded repo needs to remove the .angular and .dotnet workflow files.
