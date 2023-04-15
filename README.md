@@ -23,7 +23,7 @@ Under permissions, I added the "read and write" access.
 	"github_token": "token",
 	"template_owner": "kneyugn",
 	"owner": "your-github-username",
-	"repo": "my-new-repo",
+	"repo": "your-new-repo",
 	"template_repo": "dotNetScaffold"
 }
 ```
