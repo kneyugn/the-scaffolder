@@ -59,7 +59,7 @@ curl --request PUT \
 ```
 
 ### Dispatch [repository_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch) event 
-Triggering `repository_dispatch` is preferred because it allows for the worfklow permissions step to be completed. Additionally, we can send payload in the future that can be passed back into the CLI.
+Triggering `repository_dispatch` is preferred because it allows for the worfklow permissions step to be completed. Additionally, we can attach payload in the future that can be passed back into the CLI.
 
 ```
 curl -L \
