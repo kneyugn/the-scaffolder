@@ -3,7 +3,10 @@
 ## Introduction
 This project is built on top of [Liam Guilliver's tutorial](https://lgulliver.github.io/dynamically-generate-projects-with-github-templates-and-actions/). After running the below three curl commands successfully, you will have scaffolded a brand new Angular or .NET repository!
 
-I updated versions of some action libaries to get it working again. The hope is that we can transfer these steps to run an internal organization's CLI to generate specific repositories such as new Angular, Nestjs projects that have specific standardizations required by internal tools. See [working example](https://github.com/kneyugn/this-dotnet-repo-was-scaffolded)!
+I updated versions of some action libaries to get it working again. The hope is that we can transfer these steps to run an internal organization's CLI to generate specific repositories such as new Angular, Nestjs projects that have specific standardizations required by internal tools.
+
+- [Angular Example](https://github.com/kneyugn/angular-scaffold-example/actions/runs/4709745047)
+- [.NET Example](https://github.com/kneyugn/dotnet-scaffold-example/actions/runs/4709736617)
 
 I made some specific modifications to make this a UI first tool. The ideal flow would be:
 
