@@ -1,7 +1,7 @@
-# dotNetScaffold
+# The scaffolder
 
 ## Introduction
-This project is built on top of [Liam Guilliver's tutorial](https://lgulliver.github.io/dynamically-generate-projects-with-github-templates-and-actions/). After running the below three curl commands successfully, you will have scaffolded a brand new .NET repository!
+This project is built on top of [Liam Guilliver's tutorial](https://lgulliver.github.io/dynamically-generate-projects-with-github-templates-and-actions/). After running the below three curl commands successfully, you will have scaffolded a brand new Angular or .NET repository!
 
 I updated versions of some action libaries to get it working again. The hope is that we can transfer these steps to run an internal organization's CLI to generate specific repositories such as new Angular, Nestjs projects that have specific standardizations required by internal tools. See [working example](https://github.com/kneyugn/this-dotnet-repo-was-scaffolded)!
 
