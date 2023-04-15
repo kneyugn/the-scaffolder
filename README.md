@@ -19,7 +19,7 @@ To generate the personal access token, follow these steps below. I did not have 
 
 ```json
 {
-	"template_repo": "the-scaffold",
+	"template_repo": "the-scaffolder",
 	"template_owner": "kneyugn",
 	"repository_dispatch_event": "on_scaffold_repo"
 	"github_token": "<token>",
