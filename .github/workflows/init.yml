@@ -5,6 +5,10 @@ name: Init Project
 on:
   repository_dispatch:
     types: [on-scaffold-repo]
+
+permissions:
+  actions: write
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
