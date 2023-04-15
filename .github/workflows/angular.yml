@@ -21,6 +21,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Remove README
+        run: rm README.md .gitignore
 
       - name: ng generate
         run: ng new ${{ github.event.repository.name }} --directory=. --style=scss --skip-git --skip-install
