@@ -14,6 +14,9 @@ I made some specific modifications to make this a UI first tool. The ideal flow 
 
 `user registers repository with a UI form` --> `make repository from template` --> `add missing workflow permissions` --> `trigger workflow via repository_dispatch event`
 
+---
+## Prerequisite
+
 ### Generate personal access token:
 To generate the personal access token, follow these steps below. I did not have much luck with fine grained PAT, so I went with the traditional tokens. 
 
@@ -30,7 +33,7 @@ To generate the personal access token, follow these steps below. I did not have 
 	"github_token": "<token>",
 	"owner": "<your-github-user-name>",
 	"repo": "<your-new-repo>",
-	"scaffold_type": "<angular|dotnet>",
+	"scaffold_type": "<angular|dotnet|templating>",
 	"user_name": "<your-github-user-name>",
 	"user_email": "<your-email>",
 }
@@ -38,7 +41,16 @@ To generate the personal access token, follow these steps below. I did not have 
 
 **(In Insomnia, it is "CMD + E" to edit environment variables.)*
 
-### Make the repository from template
+---
+
+## How to scaffold
+
+In general, the steps are as followed. 
+1. API call to Github to make a template repository out of "kneyugn/the-scaffolder" template. Only worfklow files are carried over at this point.
+1. API call to Github to add "write" access to permissions workflow endpoint.
+1. API call to fire "request_dispatch" event with "templating" scaffold type and with the custom client_payload. This will trigger the workflow and call the CLI commands or do some templating before doing a git commit and push to the current repository.
+
+### 1. Make the repository from template
 
 ```
 curl --request POST \
@@ -57,7 +69,7 @@ curl --request POST \
 ```
 *(In Insomnia, copy and paste entire thing into the input component)*
 
-### Enable workflow [permissions](https://docs.github.com/en/rest/actions/permissions?apiVersion=2022-11-28#set-default-workflow-permissions-for-a-repository) for the repo
+### 2. Enable workflow [permissions](https://docs.github.com/en/rest/actions/permissions?apiVersion=2022-11-28#set-default-workflow-permissions-for-a-repository) for the repo
 
 ```
 curl --request PUT \
@@ -69,7 +81,7 @@ curl --request PUT \
 ```
 
 *(In Insomnia, copy and paste entire thing into the input.)*
-### Dispatch [repository_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch) event 
+### 3. Dispatch [repository_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch) event 
 Triggering `repository_dispatch` is preferred because it allows for the worfklow permissions step to be completed. Additionally, we can attach payload in the future that can be used by the CLI as arguments.
 
 ```
@@ -90,11 +102,43 @@ curl --request POST \
 }'
 ```
 
-## Todo
-The scaffolded repo needs to remove the .angular and .dotnet workflow files.
-
 ## Template scaffolding
 
-### How it works
+The template scaffolding method mimicks that Backstage is doing with software template scaffolding. Nunjucks is used under the hood to parse and replace template with variables.
 
-- [dev-templates](https://github.com/kneyugn/dev-templates) 
+The same process is used to scaffold from a template as it does from a CLI command. However, the templating needs a lot more client_payload data:
+
+```
+{
+    "event_type": "{{ _.repository_dispatch_event }}", // {: event_type: "on_scaffold_repo"}
+    "client_payload": {
+        "scaffold_type": "{{ _.scaffold_type }}", // {scaffold_type: "templating"}
+        "user_name": "{{ _.user_name }}", // <your-github-username>
+        "user_email": "{{ _.user_email }}", // <your-email>
+	"owner": "{{ _.owner }}", // <your-github-username>
+	"repo": "{{ _.template_repo }}",// <your-new-repo>
+	"templating_source": "{{ _.templating_source }}", // should be "kneyugn/dev-templates" or wherever the template lives
+	"templating_definitions": { // the payload that nunjucks will use to replace variables. This part is dynamic for your template's needs
+		"name": "{{ _.templating_definitions.name }}",
+		"author": "{{ _.templating_definitions.author }}",
+		"description": "{{ _.templating_definitions.description }}"
+	}
+    }
+}
+```
+
+### How template scaffolding works
+
+Templates are hosted in [dev-templates](https://github.com/kneyugn/dev-templates), but it can be any repository with the same structure.
+
+The structure of a template should be the following. Note that the workflow relies on process-files.js to be in this specific location. process-files.js resides in the same template repository for independent testing and implementation. In most cases, process-files.js does not need to change and should work for all cases.
+
+```
+- your-template-directory
+- scripts
+   - process-files.js
+```
+   
+## Todo
+- The scaffolded repo needs to remove the .angular and .dotnet workflow files.
+- We do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized. It should only 
