@@ -23,7 +23,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Remove README
-        run: rm README.md .gitignore
+        run: rm README.md
 
       - name: ng generate
         run: ng new ${{ github.event.repository.name }} --directory=. --style=scss --skip-git --skip-install
