@@ -131,7 +131,7 @@ The same process is used to scaffold from a template as it does from a CLI comma
 
 Templates are hosted in [dev-templates](https://github.com/kneyugn/dev-templates), but it can be any repository with the same structure.
 
-The structure of a template should be the following. Note that the workflow relies on process-files.js to be in this specific location. process-files.js resides in the same template repository for independent testing and implementation. In most cases, process-files.js does not need to change and should work for all cases.
+The structure of a template should be the following. Note that the workflow relies on process-files.js to be in this specific location. process-files.js resides in the same template repository for independent testing and implementation. In most cases, process-files.js does not need to change.
 
 ```
 - your-template-directory
@@ -140,5 +140,4 @@ The structure of a template should be the following. Note that the workflow reli
 ```
    
 ## Todo
-- The scaffolded repo needs to remove the .angular and .dotnet workflow files.
-- We do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized. It should only 
+- We do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized to have only 1 workflow file. This workflow file, when executed, will pull down the matching workflow and commit this new file to the new repository. Then, we resume to send a repository_dispatch event to execute the final workflow.
