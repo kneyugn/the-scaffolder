@@ -47,7 +47,8 @@ jobs:
       - name: Process Nunjucks files
         run: |
           node $TEMPLATE_COPY_DIRECTORY/scripts/process-files.js "$TEMPLATING_DEFINITIONS"
-          mv -f $TEMPLATE_COPY_DIRECTORY/output/{.,}* ./
+          mv -f $TEMPLATE_COPY_DIRECTORY/output/* ./
+          mv -f $TEMPLATE_COPY_DIRECTORY/output/.gitignore .
           rm -rf $TEMPLATE_COPY_DIRECTORY
 
       - name: Configure Git
