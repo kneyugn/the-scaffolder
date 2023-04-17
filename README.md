@@ -139,7 +139,8 @@ The structure of a template should be the following. Note that the workflow reli
    - process-files.js
 ```
 
-When a "repository_dispatch" event is called, the templating workflow runs the build job. It first clones from the "dev-templates" repo to get the nunjuck scripts and the corresponding template. After, a git commit is made and changes are pushed to the current repository.
+When a "repository_dispatch" event is called, the templating workflow runs the "build" job. It first clones from the "dev-templates" repo to get the nunjucks script and the corresponding template. The nunjucks templating engine runs through all of the files in the template directory and places the new file in the "output" directory. After, a git commit is made and changes are pushed to the current repository.
    
 ## Todo
+
 - We do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized to have only 1 workflow file. A new workflow files and a new repository_dispatch type called "on_pre_scaffolding" should be introduced. This workflow file, when executed, will pull down the matching workflow and commit this new file to the new repository. Then, we resume to send a "repository_dispatch" event of one of the following types "angular", "dotnet", or "templating" to execute the final workflow.
