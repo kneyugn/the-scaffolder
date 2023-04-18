@@ -48,7 +48,7 @@ To generate the personal access token, follow these steps below. I did not have 
 In general, the steps are as followed. 
 1. API call to Github to make a template repository out of "kneyugn/the-scaffolder" template. Only worfklow files are carried over at this point.
 1. API call to Github to add "write" access to permissions workflow endpoint.
-1. API call to fire "request_dispatch" event with "templating" scaffold type and with the custom client_payload. This will trigger the workflow and call the CLI commands or do some templating before doing a git commit and push to the current repository.
+1. API call to fire "repository_request" event with "templating|angular|dotnet" scaffold type and with the custom client_payload. This will trigger the workflow and call the CLI commands or do some templating before doing a git commit and push to the current repository.
 
 ### 1. Make the repository from template
 
