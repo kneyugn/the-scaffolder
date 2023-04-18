@@ -155,5 +155,4 @@ I also named these services generically as "request" because we do not anticipat
 
 
 ## Todo
-- Optimization: "the-scaffolder" does not need to be a template repository. It can be a normal repository that listens for a repository action, use the checkout action to checkout another repository, run the workflow cli/templating steps and push the change.
 - Alternatively, if we keep the current model, we do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized to have only 1 workflow file. A new workflow files and a new repository_dispatch type called "on_pre_scaffolding" should be introduced. This workflow file, when executed, will pull down the matching workflow and commit this new file to the new repository. Then, we resume to send a "repository_dispatch" event of one of the following types "angular", "dotnet", or "templating" to execute the final workflow.
