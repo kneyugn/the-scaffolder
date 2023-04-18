@@ -143,11 +143,12 @@ When a "repository_dispatch" event is called, the templating workflow runs the "
 
 # Known disadvantages:
 1. Github Action Runners can be flaky.
-2. In these steps, orphan repos are created without guarantees that files can successfully be commited and uploaded.
+2. Orphan repos are created without guarantees that files can successfully be commited and uploaded.
 
 ## The architecture
-This is what the system would look like in a CQRS + event sourcing achitecture. The main disadvantage of this sytem is that Github Action Runners can be flaky and unreliable. The system comes to a halt if GHA system is down and can occur occasionally in an internal organization. The following system deals with success and failure scenarios. In the event that the GHA is down and is unsuccessful,
-the user is alerted that the request has failed. The "request-cmd" and "request-query" keep track of the status of the request so that in subsequent retries, the user is not re-creating repositories. In the event that only request-cmd is down, the system stops taking the request. In the event that only query is down, it will resume processing events once it is back online.
+This is what the system would look like in a CQRS + event sourcing architecture. The main disadvantage of this sytem is that Github Action Runners can be flaky and unreliable. The system comes to a halt if GHA cannot process jobs.
+
+The following system deals with success and failure scenarios. In the event that the GHA is down and is unsuccessful, the user is alerted that the request has failed but to try again. In the retries step, the worker will know to skip the repo creation and go onto dispatch the workflow event. The "request-cmd" and "request-query" keep track of the status of the request so that in subsequent retries, the user is not re-creating repositories. In the event that only request-cmd is down, the system momentarily stops taking requests. The system is in read-only because query is still functioning. In the event that only query is down, it will resume processing events once it is back online.
 ![Screenshot 2023-04-18 at 12 03 00 AM](https://user-images.githubusercontent.com/21285877/232668937-db224757-f944-45e0-b9eb-cd0d840f170f.png)
 
 
