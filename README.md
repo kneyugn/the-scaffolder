@@ -141,7 +141,7 @@ The structure of a template should be the following. Note that the workflow reli
 
 When a "repository_dispatch" event is called, the templating workflow runs the "build" job. It first clones from the "dev-templates" repo to get the nunjucks script and the corresponding template. The nunjucks templating engine runs through all of the files in the template directory and places the new file in the "output" directory. After, a git commit is made and changes are pushed to the current repository.
 
-# Known disadvantages:
+## Known disadvantages:
 1. Github Action Runners can be flaky.
 2. Orphan repos are created without guarantees that files can successfully be commited and uploaded.
 
