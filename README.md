@@ -147,7 +147,7 @@ When a "repository_dispatch" event is called, the templating workflow runs the "
 
 ## Advantages
 1. Can utilize open source tools and CLIs to scaffold on the fly. Would not need to ensure that your single catch-all docker image has the latest CLIs install.
-2. Each successful step took less than 1 minute
+2. Entire workflow reached successful step in less than 1 minute
 3. Template repository authors get to work directly with writing workflow files to specify scaffolding instructions.
 
 ## The architecture
