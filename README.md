@@ -145,6 +145,11 @@ When a "repository_dispatch" event is called, the templating workflow runs the "
 1. Github Action Runners can be flaky.
 2. Orphan repos are created without guarantees that files can successfully be commited and uploaded.
 
+## Advantages
+1. Can utilize open source tools and CLIs to scaffold on the fly. Would not need to ensure that your single catch-all docker image has the latest CLIs install.
+2. Each successful step took less than 1 minute
+3. Template repository authors get to work directly with writing workflow files to specify scaffolding instructions.
+
 ## The architecture
 This is what the system would look like in a CQRS + event sourcing architecture. The main disadvantage of this sytem is that Github Action Runners can be flaky and unreliable. The system comes to a halt if GHA cannot process jobs.
 
