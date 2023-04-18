@@ -48,7 +48,7 @@ To generate the personal access token, follow these steps below. I did not have 
 In general, the steps are as followed. 
 1. API call to Github to make a template repository out of "kneyugn/the-scaffolder" template. Only worfklow files are carried over at this point.
 1. API call to Github to add "write" access to permissions workflow endpoint.
-1. API call to fire "repository_request" event with "templating|angular|dotnet" scaffold type and with the custom client_payload. This will trigger the workflow and call the CLI commands or do some templating before doing a git commit and push to the current repository.
+1. API call to fire " repository_dispatch" event with "templating|angular|dotnet" scaffold type and with the custom client_payload. This will trigger the workflow and call the CLI commands or do some templating before doing a git commit and push to the current repository.
 
 ### 1. Make the repository from template
 
@@ -146,7 +146,7 @@ When a "repository_dispatch" event is called, the templating workflow runs the "
 2. Orphan repos are created without guarantees that files can successfully be commited and uploaded.
 
 ## Advantages
-1. Can utilize open source tools and CLIs to scaffold on the fly. Would not need to ensure that your single catch-all docker image has the latest CLIs install.
+1. Can utilize open source tools and CLIs to scaffold on the fly. Would not need to ensure that your single catch-all docker image has the latest CLIs installed.
 2. Entire workflow reached successful step in less than 1 minute
 3. Template repository authors get to work directly with writing workflow files to specify scaffolding instructions.
 
