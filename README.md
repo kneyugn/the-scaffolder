@@ -142,8 +142,8 @@ The structure of a template should be the following. Note that the workflow reli
 When a "repository_dispatch" event is called, the templating workflow runs the "build" job. It first clones from the "dev-templates" repo to get the nunjucks script and the corresponding template. The nunjucks templating engine runs through all of the files in the template directory and places the new file in the "output" directory. After, a git commit is made and changes are pushed to the current repository.
 
 # Known disadvantages:
-1 - Github Action Runners can be flaky.
-2 - In these steps, orphan repos are created without guarantees that files can successfully be commited and uploaded.
+1. Github Action Runners can be flaky.
+2. In these steps, orphan repos are created without guarantees that files can successfully be commited and uploaded.
 
 ## The architecture
 This is what the system would look like in a CQRS + event sourcing achitecture. The main disadvantage of this sytem is that Github Action Runners can be flaky and unreliable. The system comes to a halt if GHA system is down and can occur occasionally in an internal organization. The following system deals with success and failure scenarios. In the event that the GHA is down and is unsuccessful,
