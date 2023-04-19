@@ -143,7 +143,9 @@ When a "repository_dispatch" event is called, the templating workflow runs the "
 
 ## Known disadvantages:
 1. Github Action Runners can be flaky.
-2. Orphan repos are created without guarantees that files can successfully be commited and uploaded.
+   - Service must handle retries
+2. Orphan repos are created without guarantees that files can successfully be commited and uploaded
+   - reorder workflow to scaffold with CLI/template engine first then checkout the remote repository?
 
 ## Advantages
 1. Can utilize open source tools and CLIs to scaffold on the fly. Would not need to ensure that your single catch-all docker image has the latest CLIs installed.
@@ -160,4 +162,4 @@ I also named these services generically as "request" because we do not anticipat
 
 
 ## Todo
-- Alternatively, if we keep the current model, we do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized to have only 1 workflow file. A new workflow files and a new repository_dispatch type called "on_pre_scaffolding" should be introduced. This workflow file, when executed, will pull down the matching workflow and commit this new file to the new repository. Then, we resume to send a "repository_dispatch" event of one of the following types "angular", "dotnet", or "templating" to execute the final workflow.
+- If we keep the current model, we do not need to move over all workflow files when a template is created. Instead the "kneyugn/the-scaffolder" template could be optimized to have only 1 workflow file. A new workflow files and a new repository_dispatch type called "on_pre_scaffolding" should be introduced. This workflow file, when executed, will pull down the matching workflow and commit this new file to the new repository. Then, we resume to send a "repository_dispatch" event of one of the following types "angular", "dotnet", or "templating" to execute the final workflow.
