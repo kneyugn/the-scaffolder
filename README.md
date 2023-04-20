@@ -9,6 +9,7 @@ I updated versions of some action libaries to get it working again. The hope is 
 - [Angular Example](https://github.com/kneyugn/angular-example/actions/runs/4717031895)
 - [.NET Example](https://github.com/kneyugn/dotnet-example/actions/runs/4717043825)
 - [React Example](https://github.com/kneyugn/react-example/actions/runs/4715445073) from templating (non-cli example)
+- [React Example](https://github.com/kneyugn/react-example-v8) templating v2
 
 I made some specific modifications to make this a UI first tool. The ideal flow would be:
 
