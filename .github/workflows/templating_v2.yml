@@ -1,0 +1,69 @@
+name: Create New App from Templating
+description: This workflow only creates a repository if we can scaffold first, it also uses https to push to github
+
+on:
+  repository_dispatch:
+    types: [on_scaffold_repo]
+  
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main' && github.event.client_payload.scaffold_type == 'templating'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+
+      - name: Remove duplicate files
+        run: |
+          shopt -s extglob
+          rm -rf !(.github)
+
+      - name: Get files from template repository
+        run: |
+          curl -L -H "Authorization: Bearer ${{ secrets.PAT }}" https://github.com/${{ github.event.client_payload.templating_source }}/archive/main.zip -o template_copy.zip && unzip template_copy.zip -d ./ && rm template_copy.zip
+      
+      - name: Install Nunjucks
+        run: npm install nunjucks
+ 
+      - name: Set environment variables
+        run: |
+          echo "GIT_USER_NAME=${{ github.event.client_payload.user_name }}" >> $GITHUB_ENV
+          echo "GIT_USER_EMAIL=${{ github.event.client_payload.user_email }}" >> $GITHUB_ENV
+          echo "TEMPLATING_DEFINITIONS=$(echo '${{ toJson(github.event.client_payload.templating_definitions) }}' | jq -r tostring)" >> $GITHUB_ENV
+          
+          repo_name=$(echo "${{ github.event.client_payload.templating_source }}" | cut -d'/' -f2)
+          repo_and_branch="${repo_name}-main"
+          echo "TEMPLATE_COPY_DIRECTORY=$repo_and_branch" >> $GITHUB_ENV
+
+      - name: Process Nunjucks files
+        run: |
+          node $TEMPLATE_COPY_DIRECTORY/scripts/process-files.js "$TEMPLATING_DEFINITIONS"
+          mv -f $TEMPLATE_COPY_DIRECTORY/output/* ./
+          mv -f $TEMPLATE_COPY_DIRECTORY/output/.gitignore .
+          rm -rf $TEMPLATE_COPY_DIRECTORY
+
+      - name: Create the destination repo
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.PAT }}" \
+          -H "Content-Type: application/json" \
+          -d '{"name": "${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}", "description": "This is my new repository", "private": true}' \
+          https://api.github.com/user/repos
+
+      - name: Configure Git
+        run: |
+          git init
+
+          git config --global user.name "$GIT_USER_NAME"
+          git config --global user.email "$GIT_USER_EMAIL"
+
+          git config --list
+
+          git add .
+          git branch -M main
+          git commit -m "Create new ${{ github.event.client_payload.template_type }}"
+          git remote add origin https://${{ env.PAT }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
+
+
