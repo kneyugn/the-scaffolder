@@ -1,4 +1,9 @@
 name: Create New Angular App
+description: |
+  This workflow uses the Angular CLI to generate a new project. We can even pass in the client_payload from the 
+  repository_dispatch event to pass it in as arguments to the Angular CLI.
+  The downside is that it creates the repo first then scaffold and push up to the current repository. 
+  However, we can use templating_v2.yml to scaffold first and then create the repository.
 
 on:
   repository_dispatch:

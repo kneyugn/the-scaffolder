@@ -1,5 +1,4 @@
 name: Create New App from Templating
-description: This workflow only creates a repository if we can scaffold first, it also uses https to push to github
 
 on:
   repository_dispatch:
@@ -7,7 +6,7 @@ on:
   
 jobs:
   build:
-    if: github.ref == 'refs/heads/main' && github.event.client_payload.scaffold_type == 'templating'
+    if: github.ref == 'refs/heads/main' && github.event.client_payload.scaffold_type == 'templating_v2'
     runs-on: ubuntu-latest
 
     steps:
@@ -49,21 +48,17 @@ jobs:
           curl -X POST \
           -H "Authorization: token ${{ secrets.PAT }}" \
           -H "Content-Type: application/json" \
-          -d '{"name": "${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}", "description": "This is my new repository", "private": true}' \
+          -d '{"name": "${{ github.event.client_payload.repo }}", "description": "This is my new repository", "private": true}' \
           https://api.github.com/user/repos
 
       - name: Configure Git
         run: |
-          git init
-
           git config --global user.name "$GIT_USER_NAME"
           git config --global user.email "$GIT_USER_EMAIL"
+          git config --global init.defaultBranch main
 
-          git config --list
-
+          git init
           git add .
-          git branch -M main
           git commit -m "Create new ${{ github.event.client_payload.template_type }}"
-          git remote add origin https://${{ env.PAT }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
-
-
+          git remote add origin https://${{ secrets.PAT }}@github.com/${{ github.event.client_payload.owner }}/${{ github.event.client_payload.repo }}
+          git push -u origin main
